@@ -1,0 +1,169 @@
+#更多请参阅 https://rust-lang.github.io/rustfmt/?version=v1.7.0
+#超过数组字面的最大宽度，则进行垂直格式化。
+#array_width = 60
+#超过类函数字面的最大宽度，则进行垂直格式化。
+#attr_fn_like_width = 70
+#当二进制表达式为多行表达式时，二进制运算符应置于何处。可选值: "Front", "Back"
+binop_separator = "Front"
+#条目之间必须插入的最少空行数。如果两个条目之间的空行数较少，则会插入额外的空行。
+blank_lines_lower_bound = 0
+#条目之间最多可间隔的空行数。如果发现连续空行数超过此数，则会将其修剪为与此整数一致。
+blank_lines_upper_bound = 1
+#条目的括号样式。可选值: "AlwaysNextLine", "PreferSameLine", "SameLineWhere"
+brace_style = "SameLineWhere"
+#单行链式调用的最大宽度。
+#chain_width = 60
+#是否使用彩色输出。可选值: "Auto", "Always", "Never"
+color = "Always"
+#将控制表达式与函数调用相结合。
+combine_control_expr = true
+#注释的最大长度。除非 wrap_comments = true。
+comment_width = 120
+#在元组模式中用单个 .. 替换 _ 通配符字符串
+condense_wildcard_suffixes = true
+#控制流结构的括号样式。可选值: "AlwaysNextLine", "AlwaysSameLine", "ClosingNextLine"
+control_brace_style = "AlwaysSameLine"
+#不要重新格式化任何东西
+disable_all_formatting = false
+#指定解析器使用的版本。
+#edition = "2021"
+#将空体函数和 impls 放在一行中
+empty_item_single_line = true
+#与其他枚举变量垂直排列的有判别式的枚举变量的最大长度。没有判别式的变量在排列时将被忽略。
+#请注意，这并不是插入多少空白，而是在对齐时不会被忽略的最长变体名称。
+enum_discrim_align_threshold = 80
+#如果 Rustfmt 无法获取 max_width 内的所有行（注释和字符串字面量除外），则会出错。如果出现这种情况，那么这是 Rustfmt 的一个错误。
+#你也许可以通过重构代码来避免冗长/复杂的表达式，通常是通过提取局部变量或使用更短的名称。
+error_on_line_overflow = false
+#如果无法在 max_width 中获取注释或字符串字面量，或它们的尾部留有空白，则会出错。
+error_on_unformatted = false
+#控制函数中参数的布局。可选值: "Compressed", "Tall", "Vertical"
+#fn_args_layout = "Vertical"
+#超过函数调用参数的最大宽度，则进行垂直格式化。
+#fn_call_width=60
+#控制函数签名中参数的布局。可选值: "Compressed", "Tall", "Vertical"
+fn_params_layout = "Vertical"
+#将单表达式函数放在一行中
+fn_single_line = true
+#始终打印外部项目的 abi
+force_explicit_abi = true
+#强制将多行闭合和匹配臂主体包裹在一个块中
+force_multiline_blocks = true
+#文档注释中包含的格式代码片段。
+format_code_in_doc_comments = true
+#文档注释中包含的代码片段的最大宽度。仅在 format_code_in_doc_comments 为 true 时使用。
+doc_comment_code_block_width = 120
+#格式化生成的文件。如果文件的前五行中包含 @generated 注释标记，则认为该文件已生成。
+#默认情况下，生成的文件将重新格式化，即 @generated 标记将被忽略。对于 stdin，该选项目前被忽略（stdin 中的 @generated 会被忽略）。
+format_generated_files = true
+#在宏中格式化元变量匹配模式。
+format_macro_matchers = true
+#格式化宏的正文。
+format_macro_bodies = true
+#rustfmt 不会格式化名称设置在此列表中的任何宏调用。包含特殊值 "*"将阻止任何宏调用被格式化。
+skip_macro_invocations = []
+#必要时格式化字符串文字
+format_strings = true
+#使用制表符表示缩进，空格表示对齐
+hard_tabs = false
+#控制十六进制文字值中字母的大小写。可选值: "Preserve", "Upper", "Lower"
+hex_literal_case = "Upper"
+#如果解析器解析文件失败，则不显示解析错误。
+hide_parse_errors = true
+#跳过格式化与指定模式匹配的文件和目录。模式格式与 .gitignore 相同。
+#请确保使用 Unix/forwardslash / 样式的路径。这种路径样式适用于所有平台。不支持使用反斜线 \ 的 Windows 风格路径。
+ignore = [
+    "target",
+    "examples",
+]
+#imorts 缩进样式。可选值: "Block", "Visual"
+imports_indent = "Block"
+#imorts 区块内的条目布局。可选值: "Horizontal", "HorizontalVertical", "Mixed", "Vertical"
+imports_layout = "Vertical"
+#在表达式或条目上缩进。可选值: "Block", "Visual"
+indent_style = "Block"
+#如果项目及其属性的总宽度小于阈值，则将它们写在同一行中
+inline_attribute_width = 0
+#当匹配条件与匹配后处理内容不在同一条线上时，用块将其包裹起来
+match_arm_blocks = true
+#match 控制代码是否在匹配条件上加入前导管。可选值: "Always", "Never", "Preserve"
+match_arm_leading_pipes = "Never"
+#在基于区块的匹配条件后加上逗号（非区块匹配臂不受影响）
+match_block_trailing_comma = false
+#每行最大宽度
+max_width = 120
+#将多个 derive 合并为一个 derive。
+merge_derives = true
+#应如何将导入内容归入 use 语句。导入将按照配置的粒度进行合并或拆分。可选值: "Preserve", "Crate", "Module", "Item"
+imports_granularity = "Module"
+#已弃用
+#merge_imports = true
+#Unix 或 Windows 行结束符。可选值: "Auto", "Native", "Unix", "Windows"
+newline_style = "Auto"
+#尽可能将 /* */ 注释转换为 // 注释
+normalize_comments = false
+#将 #![doc] 和 #[doc] 属性转换为 //! 和 /// 文档注释。
+normalize_doc_attributes = true
+#当结构体、片段、数组和类块/数组宏作为表达式列表的最后一个参数时，允许它们溢出（就像块/数组一样），而不是缩进新行。
+overflow_delimited_expr = false
+#删除嵌套的括号。
+remove_nested_parens = true
+#重新排列植入项。先放 type 和 const ，然后是宏和方法。
+reorder_impl_items = true
+#将 import 和 extern crate 语句按字母顺序分组（以换行符分隔一组）。
+reorder_imports = true
+#控制 imports 如何分组的策略。可选值: "Preserve", "StdExternalCrate"
+group_imports = "StdExternalCrate"
+#在组中按字母顺序重新排列 mod 声明。
+reorder_modules = true
+#要求使用特定版本的 rustfmt。如果要确保在 CI 中使用特定版本的 rustfmt，请使用此选项。
+#required_version = "0.3.8"
+#将一个数组元素视为"短"元素的宽度阈值。
+#short_array_element_width_threshold = 10
+#不要重新格式化线外的模块
+skip_children = false
+#单行 if-else 表达式的最长行数。如果值为 0 （零），if-else 表达式将被分成多行。
+#请注意，当 use_small_heuristics 设置为 Off 时也会出现这种情况。
+#single_line_if_else_max_width = 50
+#单行 let-else 语句的最大行长。#如果值为 0 （零），则表示分歧块 else 将始终格式化为多行。
+#请注意，当 use_small_heuristics 设置为 Off 时会出现这种情况。
+#有关 let-else 语句何时可以单行书写，请参阅 https://github.com/rust-lang/rust/blob/master/src/doc/style-guide/src/statements.md#else-blocks-let-else-statements 中的 let-else 语句部分。
+#single_line_let_else_max_width = 50
+#冒号后留一个空格。
+space_after_colon = true
+#冒号前留出空格。
+space_before_colon = false
+#在...、...= 和...范围运算符周围加上空格
+spaces_around_ranges = false
+#结构字段之间需要对齐的最大宽度差。
+struct_field_align_threshold = 80
+#将小结构文字放在一行中
+struct_lit_single_line = false
+#在转为垂直格式化之前，结构文字正文的最大宽度。如果值为 0 （零），则结构文字总是被分成多行。
+#请注意，当 use_small_heuristics 设置为 Off 时也会出现这种情况。
+#struct_lit_width = 18
+#在转为垂直格式化之前，结构体变体的最大宽度。如果值为 0 （零），结构体字面总是被分成多行。
+#请注意，当 use_small_heuristics 设置为 Off 时也会出现这种情况。
+#struct_variant_width = 35
+#每个 tab 的空格数
+tab_spaces = 4
+#如何处理列表的尾部逗号。可选值: "Always", "Never", "Vertical"
+trailing_comma = "Vertical"
+#在 break, continue 和 return 后加上分号
+trailing_semicolon = true
+#确定 + 或 = 在类型的标点符号中是否用空格包装。可选值: "Compressed", "Wide"
+type_punctuation_density = "Wide"
+#在不稳定通道上启用不稳定功能。
+unstable_features = false
+#尽可能使用字段初始化速记。
+use_field_init_shorthand = true
+#如果项目和表达式符合"小"的启发式概念，是否对它们使用不同的格式。可选值: "Default", "Off", "Max"
+use_small_heuristics = "Default"
+#用 ? 代替 try！宏的使用
+use_try_shorthand = true
+#使用哪个版本的格式化规则。 Version::One 向后兼容 Rustfmt 1.0。其他版本仅在一个主要版本号内向后兼容。可选值: "One", "Two"
+version = "Two"
+#强制 where 子句排成一行。
+where_single_line = false
+#将注释换行，使其符合行宽度
+wrap_comments = false
