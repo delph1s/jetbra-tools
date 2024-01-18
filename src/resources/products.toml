@@ -1,0 +1,874 @@
+### IDEs
+[[ide]]
+name = "IntelliJ IDEA"
+code = "II"
+plugin = ["PCWMP", "PDB", "PSI"]
+
+[[ide]]
+name = "PyCharm"
+code = "PC"
+plugin = ["PCWMP", "PSI"]
+
+[[ide]]
+name = "PhpStorm"
+code = "PS"
+plugin = ["PCWMP", "PSI"]
+
+[[ide]]
+name = "GoLand"
+code = "GO"
+plugin = ["PCWMP", "PSI"]
+
+[[ide]]
+name = "Rider"
+code = "RD"
+plugin = ["PDB", "PSI"]
+
+[[ide]]
+name = "CLion"
+code = "CL"
+plugin = ["PCWMP", "PSI"]
+
+[[ide]]
+name = "WebStorm"
+code = "WS"
+plugin = ["PCWMP", "PSI"]
+
+[[ide]]
+name = "RubyMine"
+code = "RM"
+plugin = ["PCWMP", "PSI"]
+
+[[ide]]
+name = "DataGrip"
+code = "DB"
+plugin = ["PDB", "PSI"]
+
+[[ide]]
+name = "DataSpell"
+code = "DS"
+plugin = ["PDB", "PSI"]
+
+[[ide]]
+name = "AppCode"
+code = "AC"
+plugin = ["PCWMP", "PSI"]
+
+[[ide]]
+name = "dotCover"
+code = "DC"
+plugin = []
+
+[[ide]]
+name = "dotTrace"
+code = "DPN"
+plugin = ["DP"]
+
+[[ide]]
+name = "dotMemory"
+code = "DM"
+plugin = []
+
+
+### Plugins
+## Base Plugin
+[[plugin]]
+name = "Code With Me"
+code = "PCWMP"
+
+[[plugin]]
+name = "Database Tools and SQL for WebStorm"
+code = "PDB"
+
+[[plugin]]
+name = "Program Structure Interface"
+code = "PSI"
+
+[[plugin]]
+name = "dotTrace Needed Plugin"
+code = "DP"
+
+## Extra Plugin
+[[plugin]]
+name = 'Symfony Support'
+code = 'PSYMFONYPLUGIN'
+
+[[plugin]]
+name = 'Wolfram Language'
+code = 'PWLANG'
+
+[[plugin]]
+name = 'Shopware'
+code = 'PSWPLUGIN'
+
+[[plugin]]
+name = 'GitToolBox'
+code = 'PGITTOOLBOX'
+
+[[plugin]]
+name = 'Hybris Integration'
+code = 'PHYBRISCOMMERCE'
+
+[[plugin]]
+name = 'Material Theme UI'
+code = 'PMATERIALUI'
+
+[[plugin]]
+name = 'Sequence Diagram'
+code = 'PSEQUENCEDIAGRA'
+
+[[plugin]]
+name = 'JetForcer | The Smartest Force.com IDE'
+code = 'PJETFORCER'
+
+[[plugin]]
+name = 'AEM IDE'
+code = 'PAEMIDE'
+
+[[plugin]]
+name = 'React Native Console'
+code = 'PRNCONSOLE'
+
+[[plugin]]
+name = 'ANSI Highlighter Premium'
+code = 'PANSIHIGHLIGHT'
+
+[[plugin]]
+name = 'Yaoqiang BPMN Editor'
+code = 'PYAOQIANGBPMN'
+
+[[plugin]]
+name = 'AEM Support'
+code = 'PAEM'
+
+[[plugin]]
+name = 'Rainbow Brackets'
+code = 'PRAINBOWBRACKET'
+
+[[plugin]]
+name = 'Git Scope'
+code = 'PGITSCOPE'
+
+[[plugin]]
+name = 'SystemVerilog'
+code = 'PVLOG'
+
+[[plugin]]
+name = 'CodeMR'
+code = 'PCODEMRBASE'
+
+[[plugin]]
+name = 'JavaDoc Clean Read'
+code = 'PJDCLEANREAD'
+
+[[plugin]]
+name = 'AutoCode for Java'
+code = 'PBRWJV'
+
+[[plugin]]
+name = 'Extra Icons'
+code = 'PEXTRAICONS'
+
+[[plugin]]
+name = 'Java Antidecompiler'
+code = 'PBISJ'
+
+[[plugin]]
+name = 'Scipio ERP Integration'
+code = 'PSCIPIO'
+
+[[plugin]]
+name = 'Android Antidecompiler'
+code = 'PBISAA'
+
+[[plugin]]
+name = 'ZenUML Support'
+code = 'PZENUML'
+
+[[plugin]]
+name = 'JFormDesigner (Marketplace Edition)'
+code = 'PJFORMDESIGNER'
+
+[[plugin]]
+name = 'OrchidE - Ansible Language Support'
+code = 'PORCHIDE'
+
+[[plugin]]
+name = 'Iedis 2'
+code = 'PIEDIS'
+
+[[plugin]]
+name = 'CMake Plus'
+code = 'PCMAKEPLUS'
+
+[[plugin]]
+name = 'OpenAPI Editor'
+code = 'POPENAPI'
+
+[[plugin]]
+name = 'Better Highlights'
+code = 'PBETTERHIGHLIGH'
+
+[[plugin]]
+name = 'Atom One Dark By Mayke'
+code = 'PATOMONEDARK'
+
+[[plugin]]
+name = 'Generate Document'
+code = 'PGDOC'
+
+[[plugin]]
+name = 'OfficeFloor'
+code = 'POFFICEFLOOR'
+
+[[plugin]]
+name = 'Android WiFiADB'
+code = 'PWIFIADB'
+
+[[plugin]]
+name = 'Laravel Idea'
+code = 'PLARAVEL'
+
+[[plugin]]
+name = 'Odoo'
+code = 'PODOO'
+
+[[plugin]]
+name = 'Bitbucket Pull Requests'
+code = 'PCREVIEW'
+
+[[plugin]]
+name = 'Merge Request Integration EE - Code Review for GitLab'
+code = 'PMRINTEGEE'
+
+[[plugin]]
+name = 'Salesforce B2C Commerce (SFCC)'
+code = 'PSFCC'
+
+[[plugin]]
+name = 'MinBatis'
+code = 'PMINBATIS'
+
+[[plugin]]
+name = 'POJO to JSON Schema'
+code = 'PPOJOTOJSONSCH'
+
+[[plugin]]
+name = 'RDF and SPARQL'
+code = 'PRDFANDSPARQL'
+
+[[plugin]]
+name = 'BashSupport Pro'
+code = 'PBASHSUPPORTPRO'
+
+[[plugin]]
+name = 'MyBatis Log'
+code = 'PMYBATISLOG'
+
+[[plugin]]
+name = 'Smart Jump'
+code = 'PSMARTJUMP'
+
+[[plugin]]
+name = 'Auto Java Code Suggestions'
+code = 'PJAVACODESUGG'
+
+[[plugin]]
+name = 'Auto GOLang Code Suggestions'
+code = 'PGOLANGCODESUGG'
+
+[[plugin]]
+name = 'Auto Ruby Code Suggestions'
+code = 'PRUBYCODESUGG'
+
+[[plugin]]
+name = 'commit-template'
+code = 'PVCS'
+
+[[plugin]]
+name = 'Auto Javascript Code Suggestions'
+code = 'PJSCODESUGG'
+
+[[plugin]]
+name = 'Auto PHP Code Suggestions'
+code = 'PPHPCODESUGG'
+
+[[plugin]]
+name = 'SystemVerilog Studio'
+code = 'PSVERILOG'
+
+[[plugin]]
+name = 'SPARQL'
+code = 'PSPARQL'
+
+[[plugin]]
+name = 'Toolset'
+code = 'PTOOLSET'
+
+[[plugin]]
+name = 'JsonToTypeScript'
+code = 'PJSONTOTS'
+
+[[plugin]]
+name = 'QmlEditor'
+code = 'PQMLEDITOR'
+
+[[plugin]]
+name = 'Stryker'
+code = 'PSTRKER'
+
+[[plugin]]
+name = 'Elasticsearch'
+code = 'PELASTICSEARCH'
+
+[[plugin]]
+name = 'JDK VisualGC'
+code = 'PVISUALGC'
+
+[[plugin]]
+name = 'Auto Python Code Suggestions'
+code = 'PPYCODESUGG'
+
+[[plugin]]
+name = 'Flutter Storm'
+code = 'PFLUTTER'
+
+[[plugin]]
+name = 'RestfulBox'
+code = 'PRESTKIT'
+
+[[plugin]]
+name = 'AWS Lambda Deployer'
+code = 'PAWSLAMBDADEPLR'
+
+[[plugin]]
+name = 'PlantUML Studio'
+code = 'PPUMLSTUDIO'
+
+[[plugin]]
+name = 'Firebase Rules Syntax Highlighter'
+code = 'PFIREHIGHLIGHT'
+
+[[plugin]]
+name = 'JPA SQL'
+code = 'PJPASQL'
+
+[[plugin]]
+name = 'Execution God Recorder'
+code = 'PGODRUNNER'
+
+[[plugin]]
+name = 'Ledger CLI'
+code = 'PLEDGER'
+
+[[plugin]]
+name = 'Regex Tool'
+code = 'PREGEXTOOL'
+
+[[plugin]]
+name = 'Android Package Helper'
+code = 'PAPH'
+
+[[plugin]]
+name = 'Gitlab CI Pipeline Dashboard'
+code = 'PGITLABCI'
+
+[[plugin]]
+name = 'CircleCI Dashboard'
+code = 'PCIRCLECI'
+
+[[plugin]]
+name = 'Heroku Dashboard'
+code = 'PHEROKU'
+
+[[plugin]]
+name = 'Redis Manager'
+code = 'PREDISMANAGER'
+
+[[plugin]]
+name = 'Zerocode Scenario Helper'
+code = 'PZEROCODE'
+
+[[plugin]]
+name = 'StormSections'
+code = 'PSTORMSECTIONS'
+
+[[plugin]]
+name = 'Sentry Integration'
+code = 'PSENTRYINTEG'
+
+[[plugin]]
+name = 'Redis-Cli'
+code = 'PREDISTOOLS'
+
+[[plugin]]
+name = 'Find In Files (Favorites)'
+code = 'PFUZYFIPC'
+
+[[plugin]]
+name = 'Bitrise Dashboard'
+code = 'PBITRISECI'
+
+[[plugin]]
+name = 'Qt Style Sheets Editor'
+code = 'PQTSQSSEDITOR'
+
+[[plugin]]
+name = 'Applet Runner'
+code = 'PAPPLETRUNNER'
+
+[[plugin]]
+name = 'Database Helper'
+code = 'PDATABASE'
+
+[[plugin]]
+name = 'Php Inspections (EA Ultimate)'
+code = 'PHPEAPLUGIN'
+
+[[plugin]]
+name = 'LeetCode Editor Pro'
+code = 'PLEP'
+
+[[plugin]]
+name = 'PHP Data Object Generator'
+code = 'PHPBUILDER'
+
+[[plugin]]
+name = 'Material Theme UI High Contrast'
+code = 'PMATERIALHC'
+
+[[plugin]]
+name = 'MQTT Client'
+code = 'PCDMQTTCLIENT'
+
+[[plugin]]
+name = 'Notes'
+code = 'PISCRATCH'
+
+[[plugin]]
+name = 'Magnolia YAML Assistant'
+code = 'PRSMGNL'
+
+[[plugin]]
+name = 'Cap-Elasticsearch'
+code = 'PCAPELASTIC'
+
+[[plugin]]
+name = 'AStock'
+code = 'PASTOCK'
+
+[[plugin]]
+name = 'Cap-Redis'
+code = 'PCAPREDIS'
+
+[[plugin]]
+name = 'Simple Object Copy'
+code = 'PBEANCONVERTER'
+
+[[plugin]]
+name = 'ElasticSearch-Admin'
+code = 'PELSA'
+
+[[plugin]]
+name = 'Typed Django Template'
+code = 'PDJANGOTPLPEP'
+
+[[plugin]]
+name = 'QueryFlag'
+code = 'PQUERYFLAG'
+
+[[plugin]]
+name = 'Nginx Configuration Pro'
+code = 'PNGINX'
+
+[[plugin]]
+name = 'KS-Explorer'
+code = 'PKSEXPLORER'
+
+[[plugin]]
+name = 'Zookeeper-Admin'
+code = 'PZKA'
+
+[[plugin]]
+name = 'API Runner'
+code = 'PCDAPIRUNNER'
+
+[[plugin]]
+name = 'NEON Nette Support'
+code = 'PNEONPRO'
+
+[[plugin]]
+name = 'Mybatis Smart Code Help Pro'
+code = 'PMBCODEHELPPRO'
+
+[[plugin]]
+name = 'Code Refactor AI'
+code = 'PCODEREFACTORAI'
+
+[[plugin]]
+name = 'XSD / WSDL Visualizer'
+code = 'PXSDVISUALIZER'
+
+[[plugin]]
+name = 'Spring Boot Helper'
+code = 'PSPRINGBOOTIDEA'
+
+[[plugin]]
+name = 'ExcelEditor'
+code = 'PEXCELEDITOR'
+
+[[plugin]]
+name = 'GitLab Merge Requests'
+code = 'PGITLAB'
+
+[[plugin]]
+name = 'Yapi QuickType'
+code = 'PYAPIQUICKTYPE'
+
+[[plugin]]
+name = 'Friendly Terminal'
+code = 'PTERMINAL'
+
+[[plugin]]
+name = 'WireMocha'
+code = 'PWIREMOCHA'
+
+[[plugin]]
+name = 'DynamoDB'
+code = 'PDYNAMODB'
+
+[[plugin]]
+name = 'FastShell'
+code = 'PFASTSHELL'
+
+[[plugin]]
+name = 'Jsonnet Pro'
+code = 'PJSONNETEMLSUP'
+
+[[plugin]]
+name = 'PHP Houdini'
+code = 'PPHPHOUDINI'
+
+[[plugin]]
+name = 'XSD to JSON Schema'
+code = 'POXYXSDJSONSCH'
+
+[[plugin]]
+name = 'Quarkus Assistant'
+code = 'PQUARKUSHELPER'
+
+[[plugin]]
+name = 'codeCreator'
+code = 'PWGCODECREATOR'
+
+[[plugin]]
+name = 'CIclone'
+code = 'PCIINTG'
+
+[[plugin]]
+name = 'Database Tool'
+code = 'PDBDATABASETOOL'
+
+[[plugin]]
+name = 'Ngrok'
+code = 'PNGROK'
+
+[[plugin]]
+name = 'Karate'
+code = 'PKARATE'
+
+[[plugin]]
+name = 'Material Theme UI Extras'
+code = 'PMATERIALEXTRAS'
+
+[[plugin]]
+name = 'JsonToAnyLanguage'
+code = 'PJSONTOANYLANGU'
+
+[[plugin]]
+name = 'Material Theme UI Custom Theme'
+code = 'PMATERIALCUSTOM'
+
+[[plugin]]
+name = 'Material Theme UI Language Additions'
+code = 'PMATERIALLANG'
+
+[[plugin]]
+name = 'Material Theme UI Project Frame'
+code = 'PMATERIALFRAME'
+
+[[plugin]]
+name = 'Rancher'
+code = 'PRANCHER'
+
+[[plugin]]
+name = 'Redis Client'
+code = 'PREDISCLIHELPER'
+
+[[plugin]]
+name = 'ScreenCodePro'
+code = 'PSCREENCODEPRO'
+
+[[plugin]]
+name = 'CodeKits'
+code = 'PCODEKITS'
+
+[[plugin]]
+name = 'Redis Operator'
+code = 'PREDISS'
+
+[[plugin]]
+name = 'PawSQL Advisor'
+code = 'PAWSQLADVISOR'
+
+[[plugin]]
+name = 'Latte Pro'
+code = 'PLATTEPRO'
+
+[[plugin]]
+name = 'Gerry Themes Pro'
+code = 'PGERRYTHEMESPRO'
+
+[[plugin]]
+name = 'Uniapp Support'
+code = 'PUNIAPPSUPPORT'
+
+[[plugin]]
+name = 'OpenAPI CRUD Wizard'
+code = 'POPENAPICRUDWIZ'
+
+[[plugin]]
+name = 'GoParser'
+code = 'PGOPARSER'
+
+[[plugin]]
+name = 'NextSketch'
+code = 'PNEXTSKETCH'
+
+[[plugin]]
+name = 'Netlify Dashboard'
+code = 'PNETLIFY'
+
+[[plugin]]
+name = 'Gerry Cyberpunk'
+code = 'PGERRYCYBERPUNK'
+
+[[plugin]]
+name = 'TLDR'
+code = 'PTLDRAI'
+
+[[plugin]]
+name = 'Brew Bundle'
+code = 'PBREWBUNDLE'
+
+[[plugin]]
+name = 'Gerry Space'
+code = 'PGERRYSPACE'
+
+[[plugin]]
+name = 'Kafkaide'
+code = 'PKAFKAIDE'
+
+[[plugin]]
+name = 'Github CI Dashboard'
+code = 'PGITHUBCI'
+
+[[plugin]]
+name = 'Gerry Nature'
+code = 'PGERRYNATURE'
+
+[[plugin]]
+name = 'Extensions Manager'
+code = 'PEXTENSION'
+
+[[plugin]]
+name = 'Skol'
+code = 'PSKOL'
+
+[[plugin]]
+name = 'Gerry Cherry'
+code = 'PGERRYCHERRY'
+
+[[plugin]]
+name = 'Gerry Coffee'
+code = 'PGERRYCOFFEE'
+
+[[plugin]]
+name = 'Connect Api'
+code = 'PCONNECTUI'
+
+[[plugin]]
+name = 'JSON-YAML-XML Converter'
+code = 'POXYJSONCONVERT'
+
+[[plugin]]
+name = 'DoytoQuery Helper'
+code = 'PDOYTOWIN'
+
+[[plugin]]
+name = 'Gerry Aurora'
+code = 'PGERRYAURORA'
+
+[[plugin]]
+name = 'Gorm'
+code = 'PWXUFQYRHZCRSEO'
+
+[[plugin]]
+name = 'IoGame'
+code = 'PWAUFKYVHQCRXEO'
+
+[[plugin]]
+name = 'Sqlfluff Linter (Ultimate Edition)'
+code = 'PSQLFLUFFLINTER'
+
+[[plugin]]
+name = 'Magento and Adobe Commerce PhpStorm by Atwix'
+code = 'PMAGE'
+
+[[plugin]]
+name = 'Snippet Toolkit for Tailwind CSS'
+code = 'PTAILWINDTOOLS'
+
+[[plugin]]
+name = 'Travis CI Dashboard'
+code = 'PTRAVISCI'
+
+[[plugin]]
+name = 'Mongo Expert'
+code = 'PMONGOEXPERT'
+
+[[plugin]]
+name = 'NextSketch2'
+code = 'PNEXTSKETCHTWO'
+
+[[plugin]]
+name = 'JavaOrm'
+code = 'PWXUQQYVOXCRSEO'
+
+[[plugin]]
+name = 'Build Monitor'
+code = 'PBUILDMON'
+
+[[plugin]]
+name = 'JetClient - The Ultimate REST Client'
+code = 'PJETCLIENT'
+
+[[plugin]]
+name = 'AI Coding'
+code = 'PAICODING'
+
+[[plugin]]
+name = 'AICommit'
+code = 'PCAICOMMITAPP'
+
+[[plugin]]
+name = 'ChatGPT Coding'
+code = 'PCHATGPTCODING'
+
+[[plugin]]
+name = 'PolyBPMN visualizer'
+code = 'POLYBPMNGDNEXT'
+
+[[plugin]]
+name = 'Armadillo'
+code = 'PARMADILLO'
+
+[[plugin]]
+name = 'Verilog Language Support'
+code = 'PVERILOGLANGUAG'
+
+[[plugin]]
+name = 'NoSQL Navigator For MongoDB'
+code = 'PNOSQLNAVMDB'
+
+[[plugin]]
+name = 'Cuefy'
+code = 'PCUEFY'
+
+[[plugin]]
+name = 'Compose Hammer'
+code = 'PCOMPOSEHAMMER'
+
+[[plugin]]
+name = 'GPT Assistant'
+code = 'PGPTASSISTANT'
+
+[[plugin]]
+name = 'Dto Buddy'
+code = 'PDTOBUDDY'
+
+[[plugin]]
+name = 'NPM Package Json'
+code = 'PNPMPACKAGEJSON'
+
+[[plugin]]
+name = 'Azure Coding'
+code = 'PAZURECODING'
+
+[[plugin]]
+name = 'GitLab CICD - Pipelines & Jobs, Builds Run Cancel Retry View Log'
+code = 'PGITLABCICD'
+
+[[plugin]]
+name = 'Sentry'
+code = 'PSENTRY'
+
+[[plugin]]
+name = 'Kafka Client'
+code = 'PKAFKA'
+
+[[plugin]]
+name = 'Spring Rest Code Generator'
+code = 'PSRCODEGEN'
+
+[[plugin]]
+name = 'Source Synchronizer Pro'
+code = 'PSOURCESYNCPRO'
+
+[[plugin]]
+name = 'Azd'
+code = 'PAZD'
+
+[[plugin]]
+name = 'RustTool'
+code = 'PWXUQRYTOXCRSEO'
+
+[[plugin]]
+name = 'Polaris Tomcat Server'
+code = 'PPOLARISTOMCATS'
+
+[[plugin]]
+name = 'MyBatis Field Add'
+code = 'PMYBATISFIELDAD'
+
+[[plugin]]
+name = 'ImageToVector'
+code = 'PIMAGETOVECTOR'
+
+[[plugin]]
+name = 'DataGraph - JSON, YAML, XML Visualization'
+code = 'PDATAGRAPH'
+
+[[plugin]]
+name = 'JSON Schema Generator'
+code = 'POXYJSONSCHGEN'
+
+[[plugin]]
+name = 'Speech-To-Text (AWS Transcribe)'
+code = 'PSPEECHTOTEXT'
+
+[[plugin]]
+name = 'MySQL Proxy'
+code = 'PMYSQLPROXY'
+
+[[plugin]]
+name = 'Restful Fast Request - API Buddy'
+code = 'PFASTREQUEST'
+
+[[plugin]]
+name = 'MyBatisCodeHelperPro (Marketplace Edition)'
+code = 'PMYBATISHELPER'
+
+[[plugin]]
+name = 'Redis'
+code = 'PREDIS'

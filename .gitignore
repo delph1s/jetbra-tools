@@ -1,5 +1,8 @@
 ### Project
+.cache
+tests
 scripts/check_rustfmt.py
+scripts/get_products.py
 
 ### jetbrains
 .idea
