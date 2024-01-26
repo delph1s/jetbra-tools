@@ -3,6 +3,8 @@
 tests
 scripts/check_rustfmt.py
 scripts/get_products.py
+scripts/search_paid_plugins.py
+scripts/chatgpt_conversation.py
 
 ### jetbrains
 .idea

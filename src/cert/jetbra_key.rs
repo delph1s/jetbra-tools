@@ -1,14 +1,114 @@
 use crate::error::Error as JBTError;
 use crate::fs::embed_resources::get_products_list_default;
 use base64::{engine::general_purpose::STANDARD, Engine as _};
+use openssl::{
+    asn1::Asn1Time,
+    pkey::{PKey, Private},
+    rsa::Rsa,
+    x509::{X509Builder, X509NameBuilder, X509},
+};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use std::error::Error;
-use std::fs;
-use std::io::{self, ErrorKind};
-use std::path::Path;
-use std::str::from_utf8;
-use std::string::ToString;
+use std::{
+    collections::HashMap,
+    error::Error,
+    fmt::{self, Error as FMTError},
+    fs,
+    io::{self, ErrorKind},
+    path::Path,
+    str::from_utf8,
+    string::ToString,
+    time,
+};
+
+enum PublicExponent {
+    OldExponent = 3,
+    NewExponent = 65537,
+}
+
+// 根据指定的起始和结束时间生成证书
+// fn gen_certificate(
+//     datetime_start: u64,
+//     datetime_end: u64,
+//     public_exponent: PublicExponent,
+//     key_size: usize,
+//     subject_name: &str,
+//     issuer_name: &str,
+// ) -> Result<(String, String), Box<dyn std::error::Error>> {
+//     // 生成 RSA 私钥
+//     let private_key = RsaPrivateKey::new(&mut rand::thread_rng(), key_size)?;
+//     let public_key = RsaPublicKey::from(&private_key);
+//
+//     // 创建证书参数
+//     // PublicExponent::NewExponent
+//     let mut params = CertificateParams::new(vec![subject_name.to_string()]);
+//     params.not_before = SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(datetime_start);
+//     params.not_after = SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(datetime_end);
+//     params.key_pair = Some(KeyPair::from(private_key));
+//
+//     // 生成证书
+//     let cert = Certificate::from_params(params)?;
+//     let cert_pem = cert.serialize_pem()?;
+//     let private_key_pem = cert.serialize_private_key_pem();
+//
+//     Ok((private_key_pem, cert_pem))
+// }
+
+/// Generates an RSA certificate and private key.
+///
+/// # Arguments
+///
+/// * `datetime_start` - Tuple representing the start datetime.
+/// * `datetime_end` - Tuple representing the end datetime.
+/// * `public_exponent` - Public exponent for RSA.
+/// * `key_size` - Key size for RSA.
+/// * `subject_name` - Subject name for the certificate.
+/// * `issuer_name` - Issuer name for the certificate.
+///
+/// # Returns
+///
+/// A Result containing a tuple of the private key and certificate in PEM format,
+/// or an error message.
+// pub fn gen_certificate(
+//     datetime_start: (i32, u32, u32, u32, u32, u32),
+//     datetime_end: (i32, u32, u32, u32, u32, u32),
+//     public_exponent: u32,
+//     key_size: u32,
+//     subject_name: &str,
+//     issuer_name: &str,
+// ) -> Result<(Vec<u8>, Vec<u8>), Box<dyn FMTError>> {
+//     // Generate RSA private key
+//     let rsa = Rsa::generate_with_e(key_size, public_exponent)?;
+//     let private_key = PKey::from_rsa(rsa)?;
+//
+//     // Get public key
+//     let public_key = PKey::from_rsa(private_key.rsa()?.to_owned())?;
+//
+//     // Create X.509 builder
+//     let mut builder = X509Builder::new()?;
+//     let mut name = X509NameBuilder::new()?;
+//     name.append_entry_by_text("CN", subject_name)?;
+//     let subject_name = name.build();
+//     let mut issuer = X509NameBuilder::new()?;
+//     issuer.append_entry_by_text("CN", issuer_name)?;
+//     let issuer_name = issuer.build();
+//
+//     builder.set_subject_name(&subject_name)?;
+//     builder.set_issuer_name(&issuer_name)?;
+//     builder.set_not_before(&Asn1Time::from_tm(&time_to_tm(datetime_start)?)?)?;
+//     builder.set_not_after(&Asn1Time::from_tm(&time_to_tm(datetime_end)?)?)?;
+//     builder.set_pubkey(&public_key)?;
+//     builder.set_serial_number(&openssl::bn::BigNum::from_u32(rand::random())?.to_asn1_integer()?)?;
+//
+//     // Sign the certificate
+//     builder.sign(&private_key, openssl::hash::MessageDigest::sha256())?;
+//
+//     // Export to PEM
+//     let certificate = builder.build();
+//     let private_key_pem = private_key.private_key_to_pem_pkcs8()?;
+//     let certificate_pem = certificate.to_pem()?;
+//
+//     Ok((private_key_pem, certificate_pem))
+// }
 
 /// Extracts and decodes a license key from a given string.
 ///
@@ -200,36 +300,3 @@ pub fn gen_license_data(
 
     Ok(serde_json::to_string(&license_data).expect("Failed to serialize license data"))
 }
-
-enum PublicExponent {
-    OldExponent = 3,
-    NewExponent = 65537,
-}
-
-// 根据指定的起始和结束时间生成证书
-// fn gen_certificate(
-//     datetime_start: u64,
-//     datetime_end: u64,
-//     public_exponent: PublicExponent,
-//     key_size: usize,
-//     subject_name: &str,
-//     issuer_name: &str,
-// ) -> Result<(String, String), Box<dyn std::error::Error>> {
-//     // 生成 RSA 私钥
-//     let private_key = RsaPrivateKey::new(&mut rand::thread_rng(), key_size)?;
-//     let public_key = RsaPublicKey::from(&private_key);
-//
-//     // 创建证书参数
-//     // PublicExponent::NewExponent
-//     let mut params = CertificateParams::new(vec![subject_name.to_string()]);
-//     params.not_before = SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(datetime_start);
-//     params.not_after = SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(datetime_end);
-//     params.key_pair = Some(KeyPair::from(private_key));
-//
-//     // 生成证书
-//     let cert = Certificate::from_params(params)?;
-//     let cert_pem = cert.serialize_pem()?;
-//     let private_key_pem = cert.serialize_private_key_pem();
-//
-//     Ok((private_key_pem, cert_pem))
-// }
