@@ -102,14 +102,17 @@ pub(crate) fn datetime_to_timestamp(cert_time: &CertTime) -> Result<i64, Box<dyn
     // Create an OffsetDateTime object from the date and time fields of `cert_time`.
     // If any of the date or time fields are invalid, return an error.
     let dt = OffsetDateTime::new_in_offset(
-        Date::from_calendar_date(cert_time.year, Month::try_from(cert_time.month)?, cert_time.day)?,
+        Date::from_calendar_date(
+            cert_time.year,
+            Month::try_from(cert_time.month).expect("out-of-range `month`"), cert_time.day).expect("invalid or out-of-range `date`"
+        ),
         Time::from_hms_micro(
             cert_time.hour,
             cert_time.minute,
             cert_time.second,
             cert_time.microsecond,
-        )?,
-        UtcOffset::from_hms(0, 0, 0)?,
+        ).expect("invalid or out-of-range `time`"),
+        UtcOffset::from_hms(0, 0, 0).expect("invalid or out-of-range `utc`"),
     );
 
     // Return the Unix timestamp of the OffsetDateTime object.
