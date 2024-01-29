@@ -1,6 +1,7 @@
 use crate::error::Error as JBTError;
 use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime, Utc};
 use std::error::Error;
+use time::{Date, Month, OffsetDateTime, Time, UtcOffset};
 
 /// `CertTime` is a struct that represents a specific date and time.
 ///
@@ -58,7 +59,7 @@ impl Default for CertTime {
 /// # Returns
 ///
 /// A `Result` containing a Unix timestamp (in seconds) or an error if the date or time is invalid.
-pub(crate) fn datetime_to_timestamp(cert_time: &CertTime) -> Result<i64, Box<dyn Error>> {
+pub(crate) fn datetime_to_timestamp_v1(cert_time: &CertTime) -> Result<i64, Box<dyn Error>> {
     // Attempt to create a `NaiveDate` from the year, month, and day fields of `cert_time`.
     // If the date is invalid, return an error.
     let native_date = match NaiveDate::from_ymd_opt(cert_time.year, cert_time.month as u32, cert_time.day as u32) {
@@ -88,9 +89,52 @@ pub(crate) fn datetime_to_timestamp(cert_time: &CertTime) -> Result<i64, Box<dyn
     Ok(datetime.timestamp())
 }
 
+/// Converts a `CertTime` to a Unix timestamp.
+///
+/// # Arguments
+///
+/// * `cert_time` - A reference to a `CertTime` struct containing the date and time to be converted.
+///
+/// # Returns
+///
+/// A `Result` containing a Unix timestamp (in seconds) or an error if the date or time is invalid.
+pub(crate) fn datetime_to_timestamp(cert_time: &CertTime) -> Result<i64, Box<dyn Error>> {
+    // Create an OffsetDateTime object from the date and time fields of `cert_time`.
+    // If any of the date or time fields are invalid, return an error.
+    let dt = OffsetDateTime::new_in_offset(
+        Date::from_calendar_date(cert_time.year, Month::try_from(cert_time.month)?, cert_time.day)?,
+        Time::from_hms_micro(
+            cert_time.hour,
+            cert_time.minute,
+            cert_time.second,
+            cert_time.microsecond,
+        )?,
+        UtcOffset::from_hms(0, 0, 0)?,
+    );
+
+    // Return the Unix timestamp of the OffsetDateTime object.
+    Ok(dt.unix_timestamp())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_datetime_to_timestamp_v1() {
+        let cert_time = CertTime {
+            year: 2008,
+            month: 8,
+            day: 8,
+            hour: 8,
+            minute: 8,
+            second: 8,
+            microsecond: 888888,
+            ..Default::default()
+        };
+
+        assert_eq!(datetime_to_timestamp_v1(&cert_time).unwrap(), 1218182888);
+    }
 
     #[test]
     fn test_datetime_to_timestamp() {
@@ -105,7 +149,6 @@ mod tests {
             ..Default::default()
         };
 
-        println!("{}", datetime_to_timestamp(&cert_time).unwrap());
         assert_eq!(datetime_to_timestamp(&cert_time).unwrap(), 1218182888);
     }
 }
