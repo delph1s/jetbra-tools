@@ -1,37 +1,111 @@
-// use chrono::NaiveDate;
-// use std::fmt;
+use crate::error::Error as JBTError;
+use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime, Utc};
+use std::error::Error;
 
-// pub fn date_to_timestamp(
-//     year: i32,
-//     month: u32,
-//     day: u32,
-//     hour: u32,
-//     min: u32,
-//     sec: u32,
-//     milli: u32,
-// ) -> Result<u64, Box<dyn std::error::Error>> {
-//     let date = NaiveDate::from_ymd_opt(year, month, day)?.and_hms_milli_opt(hour, min, sec, milli);
-//     let duration_since_epoch = date.signed_duration_since(NaiveDate::from_ymd_opt(1970, 1, 1).and_hms(0, 0, 0));
-//     Ok(duration_since_epoch.num_seconds() as u64)
-// }
+/// `CertTime` is a struct that represents a specific date and time.
+///
+/// # Fields
+///
+/// * `year` - The year as a 32-bit integer.
+/// * `month` - The month as an 8-bit unsigned integer.
+/// * `day` - The day as an 8-bit unsigned integer.
+/// * `hour` - The hour as an 8-bit unsigned integer.
+/// * `minute` - The minute as an 8-bit unsigned integer.
+/// * `second` - The second as an 8-bit unsigned integer.
+/// * `microsecond` - The microsecond as a 32-bit unsigned integer.
+pub struct CertTime {
+    pub year: i32,
+    pub month: u8,
+    pub day: u8,
+    pub hour: u8,
+    pub minute: u8,
+    pub second: u8,
+    pub microsecond: u32,
+}
 
-/// Converts a tuple to a tm structure.
-///
-/// # Arguments
-///
-/// * `datetime` - A tuple representing the datetime.
+/// Provides a default value for `CertTime`.
 ///
 /// # Returns
 ///
-/// A Result containing a tm structure, or an error message.
-// fn time_to_tm(datetime: (i32, u32, u32, u32, u32, u32)) -> Result<std::time::Tm, Box<dyn fmt::Error>> {
-//     Ok(std::time::Tm {
-//         tm_year: datetime.0 - 1900,    // tm_year is years since 1900
-//         tm_mon: datetime.1 as i32 - 1, // tm_mon is 0-based
-//         tm_mday: datetime.2 as i32,
-//         tm_hour: datetime.3 as i32,
-//         tm_min: datetime.4 as i32,
-//         tm_sec: datetime.5 as i32,
-//         ..std::time::empty_tm()
-//     })
-// }
+/// A `CertTime` instance with the following default values:
+/// * `year`: 2099
+/// * `month`: 12
+/// * `day`: 31
+/// * `hour`: 23
+/// * `minute`: 59
+/// * `second`: 59
+/// * `microsecond`: 999999
+impl Default for CertTime {
+    fn default() -> Self {
+        Self {
+            year: 2099,
+            month: 12,
+            day: 31,
+            hour: 23,
+            minute: 59,
+            second: 59,
+            microsecond: 999999,
+        }
+    }
+}
+
+/// Converts a `CertTime` to a Unix timestamp.
+///
+/// # Arguments
+///
+/// * `cert_time` - A `CertTime` struct containing the date and time to be converted.
+///
+/// # Returns
+///
+/// A `Result` containing a Unix timestamp (in seconds) or an error if the date or time is invalid.
+pub(crate) fn datetime_to_timestamp(cert_time: &CertTime) -> Result<i64, Box<dyn Error>> {
+    // Attempt to create a `NaiveDate` from the year, month, and day fields of `cert_time`.
+    // If the date is invalid, return an error.
+    let native_date = match NaiveDate::from_ymd_opt(cert_time.year, cert_time.month as u32, cert_time.day as u32) {
+        Some(date) => date,
+        None => return Err(Box::new(JBTError::new("Invalid date"))),
+    };
+
+    // Attempt to create a `NaiveTime` from the hour, minute, second, and microsecond fields of `cert_time`.
+    // If the time is invalid (e.g., 25:00:00), return an error.
+    let native_time = match NaiveTime::from_hms_micro_opt(
+        cert_time.hour as u32,
+        cert_time.minute as u32,
+        cert_time.second as u32,
+        cert_time.microsecond,
+    ) {
+        Some(time) => time,
+        None => return Err(Box::new(JBTError::new("Invalid time"))),
+    };
+
+    // Combine the `NaiveDate` and `NaiveTime` into a `NaiveDateTime`.
+    let naive_datetime = NaiveDateTime::new(native_date, native_time);
+
+    // Convert the `NaiveDateTime` to a `DateTime<Utc>`.
+    let datetime: DateTime<Utc> = DateTime::from_naive_utc_and_offset(naive_datetime, Utc);
+
+    // Return the Unix timestamp of the `DateTime<Utc>`.
+    Ok(datetime.timestamp())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_datetime_to_timestamp() {
+        let cert_time = CertTime {
+            year: 2008,
+            month: 8,
+            day: 8,
+            hour: 8,
+            minute: 8,
+            second: 8,
+            microsecond: 888888,
+            ..Default::default()
+        };
+
+        println!("{}", datetime_to_timestamp(&cert_time).unwrap());
+        assert_eq!(datetime_to_timestamp(&cert_time).unwrap(), 1218182888);
+    }
+}
