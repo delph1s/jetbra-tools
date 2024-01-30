@@ -89,6 +89,39 @@ pub(crate) fn datetime_to_timestamp_v1(cert_time: &CertTime) -> Result<i64, Box<
     Ok(datetime.timestamp())
 }
 
+/// Converts a `CertTime` to a OffsetDateTime object.
+///
+/// # Arguments
+///
+/// * `cert_time` - A reference to a `CertTime` struct containing the date and time to be converted.
+///
+/// # Returns
+///
+/// A `Result` containing a OffsetDateTime object or an error if the date or time is invalid.
+pub(crate) fn dt2odt(cert_time: &CertTime) -> Result<OffsetDateTime, Box<dyn Error>> {
+    // Create an OffsetDateTime object from the date and time fields of `cert_time`.
+    // If any of the date or time fields are invalid, return an error.
+    let odt = OffsetDateTime::new_in_offset(
+        Date::from_calendar_date(
+            cert_time.year,
+            Month::try_from(cert_time.month).expect("out-of-range `month`"),
+            cert_time.day,
+        )
+        .expect("invalid or out-of-range `date`"),
+        Time::from_hms_micro(
+            cert_time.hour,
+            cert_time.minute,
+            cert_time.second,
+            cert_time.microsecond,
+        )
+        .expect("invalid or out-of-range `time`"),
+        UtcOffset::from_hms(0, 0, 0).expect("invalid or out-of-range `utc`"),
+    );
+
+    // Return the OffsetDateTime object.
+    Ok(odt)
+}
+
 /// Converts a `CertTime` to a Unix timestamp.
 ///
 /// # Arguments
@@ -98,30 +131,17 @@ pub(crate) fn datetime_to_timestamp_v1(cert_time: &CertTime) -> Result<i64, Box<
 /// # Returns
 ///
 /// A `Result` containing a Unix timestamp (in seconds) or an error if the date or time is invalid.
-pub(crate) fn datetime_to_timestamp(cert_time: &CertTime) -> Result<i64, Box<dyn Error>> {
-    // Create an OffsetDateTime object from the date and time fields of `cert_time`.
-    // If any of the date or time fields are invalid, return an error.
-    let dt = OffsetDateTime::new_in_offset(
-        Date::from_calendar_date(
-            cert_time.year,
-            Month::try_from(cert_time.month).expect("out-of-range `month`"), cert_time.day).expect("invalid or out-of-range `date`"
-        ),
-        Time::from_hms_micro(
-            cert_time.hour,
-            cert_time.minute,
-            cert_time.second,
-            cert_time.microsecond,
-        ).expect("invalid or out-of-range `time`"),
-        UtcOffset::from_hms(0, 0, 0).expect("invalid or out-of-range `utc`"),
-    );
+pub(crate) fn dt2ts(cert_time: &CertTime) -> Result<i64, Box<dyn Error>> {
+    let odt = dt2odt(cert_time)?;
 
     // Return the Unix timestamp of the OffsetDateTime object.
-    Ok(dt.unix_timestamp())
+    Ok(odt.unix_timestamp())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use time::macros::datetime;
 
     #[test]
     fn test_datetime_to_timestamp_v1() {
@@ -140,6 +160,22 @@ mod tests {
     }
 
     #[test]
+    fn test_dt2odt() {
+        let cert_time = CertTime {
+            year: 2008,
+            month: 8,
+            day: 8,
+            hour: 8,
+            minute: 8,
+            second: 8,
+            microsecond: 888888,
+            ..Default::default()
+        };
+
+        assert_eq!(dt2odt(&cert_time).unwrap(), datetime!(2008-08-08 08:08:08.888888 UTC));
+    }
+
+    #[test]
     fn test_datetime_to_timestamp() {
         let cert_time = CertTime {
             year: 2008,
@@ -152,6 +188,6 @@ mod tests {
             ..Default::default()
         };
 
-        assert_eq!(datetime_to_timestamp(&cert_time).unwrap(), 1218182888);
+        assert_eq!(dt2ts(&cert_time).unwrap(), 1218182888);
     }
 }

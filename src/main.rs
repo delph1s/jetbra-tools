@@ -21,7 +21,7 @@ struct ExtractJBKeyParams {
 async fn extract_valid_jbkey_view(Json(payload): Json<ExtractJBKeyParams>) -> Json<Value> {
     return match extract_valid_jbkey(payload.license.as_deref().unwrap()) {
         Ok((license_id, license_data)) => Json(json!({ "licenseId": license_id, "licenseData": license_data })),
-        Err(e) => Json(json!({ "detail": "Invalid Jetbra Key" })),
+        Err(_) => Json(json!({ "detail": "Invalid Jetbra Key" })),
     };
 }
 
