@@ -1,114 +1,15 @@
 use crate::error::Error as JBTError;
 use crate::fs::embed_resources::get_products_list_default;
 use base64::{engine::general_purpose::STANDARD, Engine as _};
-use openssl::{
-    asn1::Asn1Time,
-    pkey::{PKey, Private},
-    rsa::Rsa,
-    x509::{X509Builder, X509NameBuilder, X509},
-};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
     error::Error,
-    fmt::{self, Error as FMTError},
     fs,
-    io::{self, ErrorKind},
     path::Path,
     str::from_utf8,
     string::ToString,
-    time,
 };
-
-enum PublicExponent {
-    OldExponent = 3,
-    NewExponent = 65537,
-}
-
-// 根据指定的起始和结束时间生成证书
-// fn gen_certificate(
-//     datetime_start: u64,
-//     datetime_end: u64,
-//     public_exponent: PublicExponent,
-//     key_size: usize,
-//     subject_name: &str,
-//     issuer_name: &str,
-// ) -> Result<(String, String), Box<dyn std::error::Error>> {
-//     // 生成 RSA 私钥
-//     let private_key = RsaPrivateKey::new(&mut rand::thread_rng(), key_size)?;
-//     let public_key = RsaPublicKey::from(&private_key);
-//
-//     // 创建证书参数
-//     // PublicExponent::NewExponent
-//     let mut params = CertificateParams::new(vec![subject_name.to_string()]);
-//     params.not_before = SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(datetime_start);
-//     params.not_after = SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(datetime_end);
-//     params.key_pair = Some(KeyPair::from(private_key));
-//
-//     // 生成证书
-//     let cert = Certificate::from_params(params)?;
-//     let cert_pem = cert.serialize_pem()?;
-//     let private_key_pem = cert.serialize_private_key_pem();
-//
-//     Ok((private_key_pem, cert_pem))
-// }
-
-/// Generates an RSA certificate and private key.
-///
-/// # Arguments
-///
-/// * `datetime_start` - Tuple representing the start datetime.
-/// * `datetime_end` - Tuple representing the end datetime.
-/// * `public_exponent` - Public exponent for RSA.
-/// * `key_size` - Key size for RSA.
-/// * `subject_name` - Subject name for the certificate.
-/// * `issuer_name` - Issuer name for the certificate.
-///
-/// # Returns
-///
-/// A Result containing a tuple of the private key and certificate in PEM format,
-/// or an error message.
-// pub fn gen_certificate(
-//     datetime_start: (i32, u32, u32, u32, u32, u32),
-//     datetime_end: (i32, u32, u32, u32, u32, u32),
-//     public_exponent: u32,
-//     key_size: u32,
-//     subject_name: &str,
-//     issuer_name: &str,
-// ) -> Result<(Vec<u8>, Vec<u8>), Box<dyn FMTError>> {
-//     // Generate RSA private key
-//     let rsa = Rsa::generate_with_e(key_size, public_exponent)?;
-//     let private_key = PKey::from_rsa(rsa)?;
-//
-//     // Get public key
-//     let public_key = PKey::from_rsa(private_key.rsa()?.to_owned())?;
-//
-//     // Create X.509 builder
-//     let mut builder = X509Builder::new()?;
-//     let mut name = X509NameBuilder::new()?;
-//     name.append_entry_by_text("CN", subject_name)?;
-//     let subject_name = name.build();
-//     let mut issuer = X509NameBuilder::new()?;
-//     issuer.append_entry_by_text("CN", issuer_name)?;
-//     let issuer_name = issuer.build();
-//
-//     builder.set_subject_name(&subject_name)?;
-//     builder.set_issuer_name(&issuer_name)?;
-//     builder.set_not_before(&Asn1Time::from_tm(&time_to_tm(datetime_start)?)?)?;
-//     builder.set_not_after(&Asn1Time::from_tm(&time_to_tm(datetime_end)?)?)?;
-//     builder.set_pubkey(&public_key)?;
-//     builder.set_serial_number(&openssl::bn::BigNum::from_u32(rand::random())?.to_asn1_integer()?)?;
-//
-//     // Sign the certificate
-//     builder.sign(&private_key, openssl::hash::MessageDigest::sha256())?;
-//
-//     // Export to PEM
-//     let certificate = builder.build();
-//     let private_key_pem = private_key.private_key_to_pem_pkcs8()?;
-//     let certificate_pem = certificate.to_pem()?;
-//
-//     Ok((private_key_pem, certificate_pem))
-// }
 
 /// Extracts and decodes a license key from a given string.
 ///
@@ -121,8 +22,7 @@ enum PublicExponent {
 pub fn extract_valid_jbkey(k: &str) -> Result<(String, String), Box<dyn Error>> {
     let k_list: Vec<&str> = k.split('-').collect();
     if k_list.len() != 4 {
-        return Err(Box::new(io::Error::new(
-            ErrorKind::InvalidInput,
+        return Err(Box::new(JBTError::new(
             "Valid keys are separated into id, license, signature and public key using the `-` symbol",
         )));
     }
@@ -131,9 +31,9 @@ pub fn extract_valid_jbkey(k: &str) -> Result<(String, String), Box<dyn Error>> 
     let license_data_base64 = k_list[1];
     let license_data_bytes = STANDARD
         .decode(license_data_base64)
-        .map_err(|_| io::Error::new(ErrorKind::InvalidInput, "Base64 decoding failed"))?;
+        .map_err(|_| JBTError::new("Base64 decoding failed"))?;
     let license_data = from_utf8(&license_data_bytes)
-        .map_err(|_| io::Error::new(ErrorKind::InvalidInput, "UTF-8 conversion failed"))?
+        .map_err(|_| JBTError::new("UTF-8 conversion failed"))?
         .to_string();
 
     Ok((license_id, license_data))
@@ -158,7 +58,16 @@ struct ProductConfig {
     plugin: Vec<PluginConfig>,
 }
 
-#[derive(Serialize)]
+/// Struct representing a license product.
+///
+/// # Fields
+///
+/// * `code` - Product code.
+/// * `fallback_date` - Fallback date in YYYY-MM-DD format.
+/// * `paid_up_to` - Paid up to date in YYYY-MM-DD format.
+/// * `extended` - Whether the license has been extended.
+#[derive(Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct LicenseProduct {
     code: String,
     fallback_date: String,
@@ -166,8 +75,24 @@ struct LicenseProduct {
     extended: bool,
 }
 
-#[derive(Serialize)]
-#[serde(rename_all(serialize = "camelCase"))]
+/// Struct representing license data.
+///
+/// # Fields
+///
+/// * `license_id` - License ID.
+/// * `licensee_name` - Licensee name.
+/// * `assignee_name` - Assignee name.
+/// * `assignee_email` - Assignee email.
+/// * `license_restriction` - License restriction.
+/// * `check_concurrent_use` - Whether to check concurrent use.
+/// * `products` - List of products.
+/// * `metadata` - Metadata.
+/// * `hash` - Hash.
+/// * `grace_period_days` - Grace period in days.
+/// * `auto_prolongated` - Whether the license has been auto-prolongated.
+/// * `is_auto_prolongated` - Whether the license is auto-prolongated.
+#[derive(Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct LicenseData {
     license_id: String,
     licensee_name: String,
@@ -181,6 +106,30 @@ struct LicenseData {
     grace_period_days: u32,
     auto_prolongated: bool,
     is_auto_prolongated: bool,
+}
+
+impl LicenseData {
+    /// Creates a new `LicenseData` instance with default values.
+    ///
+    /// # Returns
+    ///
+    /// A `LicenseData` instance.
+    fn default() -> Self {
+        LicenseData {
+            license_id: "8888888888".to_string(),
+            licensee_name: "your name".to_string(),
+            assignee_name: "your name".to_string(),
+            assignee_email: "admin@example.com".to_string(),
+            license_restriction: "".to_string(),
+            check_concurrent_use: false,
+            products: Vec::new(),
+            metadata: "0120220902PSAN000005".to_string(),
+            hash: "TRIAL:1234567890".to_string(),
+            grace_period_days: 7,
+            auto_prolongated: false,
+            is_auto_prolongated: false,
+        }
+    }
 }
 
 /// Reads product configuration from a TOML file.
@@ -212,7 +161,21 @@ fn read_products() -> Result<ProductConfig, Box<dyn Error>> {
     Ok(config)
 }
 
-// gen_license_data 函数实现
+// Add comment to gen_license_data
+/// Generates license data.
+///
+/// # Arguments
+///
+/// * `ide` - IDE data.
+/// * `plugins` - List of plugins.
+/// * `license_id` - License ID.
+/// * `licensee_name` - Licensee name.
+/// * `assignee_name` - Assignee name.
+/// * `assignee_email` - Assignee email.
+///
+/// # Returns
+///
+/// A Result containing a JSON string of the license data, or an error message.
 pub fn gen_license_data(
     ide: Option<HashMap<String, String>>,
     plugins: Option<Vec<HashMap<String, String>>>,
@@ -283,20 +246,12 @@ pub fn gen_license_data(
     data_products.dedup_by(|a, b| a.code == b.code);
 
     // 构建并返回最终的 json 字符串
-    let license_data = LicenseData {
-        license_id,
-        licensee_name,
-        assignee_name,
-        assignee_email,
-        license_restriction: "".to_string(),
-        check_concurrent_use: false,
-        products: data_products,
-        metadata: "0120220902PSAN000005".to_string(),
-        hash: "TRIAL:1234567890".to_string(),
-        grace_period_days: 7,
-        auto_prolongated: false,
-        is_auto_prolongated: false,
-    };
+    let mut license_data = LicenseData::default();
+    license_data.license_id = license_id;
+    license_data.licensee_name = licensee_name;
+    license_data.assignee_name = assignee_name;
+    license_data.assignee_email = assignee_email;
+    license_data.products = data_products;
 
     Ok(serde_json::to_string(&license_data).expect("Failed to serialize license data"))
 }
