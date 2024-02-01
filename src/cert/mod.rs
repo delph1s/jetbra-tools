@@ -1,2 +1,2 @@
 pub mod jetbra_key;
-mod cert_gen;
+pub mod cert_gen;

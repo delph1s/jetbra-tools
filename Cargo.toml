@@ -11,7 +11,7 @@ base64 = "0.21.7"
 chrono = "0.4.33"
 openssl = "0.10.63"
 rand = "0.8.5"
-rcgen = "0.12.1"
+rcgen = { version = "0.12.1", features = ["pem", "x509-parser"] }
 rsa = "0.9.6"
 rust-embed = "8.2.0"
 serde = { version = "1.0.196", features = ["derive"] }
@@ -24,3 +24,4 @@ uuid = { version = "1.7.0", features = [
     "fast-rng", # Use a faster (but still sufficiently random) RNG
     "v4", # Lets you generate random UUIDs
 ] }
+x509-parser = "0.15.1"
