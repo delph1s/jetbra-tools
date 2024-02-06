@@ -33,7 +33,7 @@ use std::{
     // path::Path
 };
 use time::OffsetDateTime;
-use x509_parser::{certificate::X509Certificate, nom::AsBytes, pem::Pem, parse_x509_certificate};
+use x509_parser::{certificate::X509Certificate, nom::AsBytes, pem::Pem};
 
 /// 定义一个名为 `PublicExponent` 的枚举（enum）。
 /// 枚举用于表示一组已命名的常数值，这里用于表示公钥指数。
@@ -125,7 +125,7 @@ impl Default for GenCertificateParams {
             datetime_end: OffsetDateTime::from_unix_timestamp_nanos(4102444799999).unwrap(),
             public_exponent: PublicExponent::NewExponent,
             key_size: 4096,
-            subject_name: "delph1s-from-20080808".to_string(),
+            subject_name: "anonymous-from-20080808".to_string(),
             issuer_name: "JetProfile CA".to_string(),
         }
     }
@@ -272,18 +272,10 @@ fn rc_gen_certificate(gen_certificate_params: GenCertificateParams) -> Result<(S
 //     Ok((private_key_pem, certificate_pem))
 // }
 
-pub fn load_x509_cert_from_file(cert_path: &str) -> Result<X509Certificate, Box<dyn Error>> {
+pub fn parse_root_public_key_from_file(cert_path: &str) -> Result<String, Box<dyn Error>> {
     let cert_file = File::open(cert_path)?;
     let cert_pem = Pem::read(BufReader::new(cert_file))?;
-    let cert_pem_contents = cert_pem.0.contents.clone();
-    // let x509_cert = cert_pem.0.parse_x509()?;
-    let x509_cert = parse_x509_certificate(&cert_pem_contents)?.1;
-
-    Ok(x509_cert)
-}
-
-pub fn parse_root_public_key_from_file(cert_path: &str) -> Result<String, Box<dyn Error>> {
-    let x509_cert = load_x509_cert_from_file(cert_path)?;
+    let x509_cert = cert_pem.0.parse_x509()?;
     let public_key = x509_cert.public_key().clone();
     let subject_public_key_data = public_key.subject_public_key.data.as_ref();
     let rsa_public_key =
@@ -294,7 +286,9 @@ pub fn parse_root_public_key_from_file(cert_path: &str) -> Result<String, Box<dy
 }
 
 pub fn sign_from_file(cert_path: &str) -> Result<(String, String), Box<dyn Error>> {
-    let x509_cert = load_x509_cert_from_file(cert_path)?;
+    let cert_file = File::open(cert_path)?;
+    let cert_pem = Pem::read(BufReader::new(cert_file))?;
+    let x509_cert = cert_pem.0.parse_x509()?;
     let sign = x509_cert.signature_value.as_ref();
     let sign_big_uint = BigUint::from_bytes_be(sign);
 
@@ -340,20 +334,20 @@ mod tests {
         })
         .unwrap();
 
-        fs::write("./.cache/key.pem", private_key_pem.as_bytes()).expect("Unable to write private key file");
-        fs::write("./.cache/cert.pem", certificate_pem.as_bytes()).expect("Unable to write certificate file");
+        fs::write("./.cache/jbts/key.pem", private_key_pem.as_bytes()).expect("Unable to write private key file");
+        fs::write("./.cache/jbts/cert.pem", certificate_pem.as_bytes()).expect("Unable to write certificate file");
     }
 
     #[test]
     fn test_rc_gen_sign() {
-        let (sign, filled_sign) = sign_from_file("./.cache/cert.pem").unwrap();
-        let mut sign_file = File::create("./.cache/sign.txt").unwrap();
+        let (sign, filled_sign) = sign_from_file("./.cache/jbts/cert.pem").unwrap();
+        let mut sign_file = File::create("./.cache/jbts/sign.txt").unwrap();
         sign_file
             .write_all(sign.to_string().as_bytes())
             .expect("Unable to write sign file");
         println!("{}", sign.to_string());
 
-        let root_public_key = parse_root_public_key_from_file("./.cache/root.pem").unwrap();
+        let root_public_key = parse_root_public_key_from_file("./.cache/jbts/root.pem").unwrap();
         println!("{}", root_public_key);
     }
 }

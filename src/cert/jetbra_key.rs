@@ -19,21 +19,19 @@ use std::{
 /// # Returns
 /// A `Result` which is `Ok` containing a tuple of the license ID and the decoded license data
 /// if successful, or an `Err` with a static string describing the error.
-pub fn extract_valid_jbkey(k: &str) -> Result<(String, String), Box<dyn Error>> {
+pub fn extract_valid_jbkey(k: &str) -> Result<(String, String), &'static str> {
     let k_list: Vec<&str> = k.split('-').collect();
     if k_list.len() != 4 {
-        return Err(Box::new(JBTError::new(
-            "Valid keys are separated into id, license, signature and public key using the `-` symbol",
-        )));
+        return Err("Valid keys are separated into id, license, signature and public key using the `-` symbol");
     }
     let license_id = k_list[0].to_string();
 
     let license_data_base64 = k_list[1];
     let license_data_bytes = STANDARD
         .decode(license_data_base64)
-        .map_err(|_| JBTError::new("Base64 decoding failed"))?;
+        .expect("Base64 decoding failed");
     let license_data = from_utf8(&license_data_bytes)
-        .map_err(|_| JBTError::new("UTF-8 conversion failed"))?
+        .expect("UTF-8 conversion failed")
         .to_string();
 
     Ok((license_id, license_data))
