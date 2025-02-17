@@ -1,6 +1,9 @@
 ### Project
 .idea
 .cache
+plugins.json
+licenses.json
+licenses_ide.json
 
 ### Linux template
 *~
