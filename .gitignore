@@ -1,6 +1,10 @@
 ### Project
 .idea
 .cache
+ca.crt
+ca.key
+ls_ca.crt
+ls_ca.key
 plugins.json
 licenses.json
 licenses_ide.json
